@@ -12,7 +12,7 @@ export const useProjectStore = defineStore("project", () => {
     error.value = null;
 
     try {
-      const res = await fetch("http://localhost:3000/api/projects");
+      const res = await fetch("http://localhost:8080/api/projects");
 
       // check response
       if (!res.ok) {

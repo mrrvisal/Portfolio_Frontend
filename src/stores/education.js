@@ -12,7 +12,7 @@ export const useEducationStore = defineStore("education", () => {
     error.value = null;
 
     try {
-      const res = await fetch("http://localhost:3000/api/educations");
+      const res = await fetch("http://localhost:8080/api/educations");
 
       // check response
       if (!res.ok) {
