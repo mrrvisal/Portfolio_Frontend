@@ -1,6 +1,9 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 export const useEducationStore = defineStore("education", () => {
   // state
   const education = ref([]);
@@ -12,7 +15,7 @@ export const useEducationStore = defineStore("education", () => {
     error.value = null;
 
     try {
-      const res = await fetch("http://localhost:8080/api/educations");
+      const res = await fetch(`${API_URL}/api/educations`);
 
       // check response
       if (!res.ok) {

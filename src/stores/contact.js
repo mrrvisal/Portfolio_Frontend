@@ -1,6 +1,8 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useContactStore = defineStore("contact", () => {
   // state
   const contact = ref([]);
@@ -12,7 +14,7 @@ export const useContactStore = defineStore("contact", () => {
     error.value = null;
 
     try {
-      const res = await fetch("http://localhost:8080/api/contact", {
+      const res = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
