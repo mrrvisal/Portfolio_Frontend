@@ -74,7 +74,7 @@
           <div class="hex-border-inner"></div>
           <div class="hex-photo-wrap" @click="triggerPhotoUpload">
             <div class="hex-placeholder" ref="photoElRef">
-              <img src="https://res.cloudinary.com/daji2ml3y/image/upload/v1774676429/2026-03-28_12.38.31_cpfmyd.jpg" alt="">
+              <img src="https://res.cloudinary.com/daji2ml3y/image/upload/q_auto/f_auto/v1775102685/2026-03-28_12.38.31_cpfmyd_1_a5zg3g.jpg" alt="">
             </div>
           </div>
 
