@@ -11,4 +11,14 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  server: {
+    port: 5173,
+  },
+  build: {
+    outDir: "dist",
+    sourcemap: true,
+  },
+  optimizeDeps: {
+    include: ["bootstrap", "pinia", "swiper"],
+  },
 });
