@@ -28,7 +28,7 @@ export const useContactStore = defineStore("contact", () => {
       }
 
       const data = await res.json();
-      console.log("POST result:", data);
+      // console.log("POST result:", data);
 
       // optional: push new contact into list
       contact.value.push(data);
@@ -41,11 +41,35 @@ export const useContactStore = defineStore("contact", () => {
       loading.value = false;
     }
   };
+  const getContacts = async () => {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const res = await fetch(`${API_URL}/api/contacts`);
+
+      // check response
+      if (!res.ok) {
+        throw new Error("API error: " + res.status);
+      }
+
+      const response = await res.json();
+      const data = response.data;
+      // console.log("GET result:", data);
+      return data;
+    } catch (err) {
+      error.value = err.message || "Failed to fetch contacts";
+      console.error(err);
+    } finally {
+      loading.value = false;
+    }
+  };
 
   return {
     contact,
     loading,
     error,
     createContact,
+    getContacts,
   };
 });

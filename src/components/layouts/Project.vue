@@ -101,7 +101,7 @@ const scrollToSection = () => {
 onMounted(async () => {
   loading.value = true;
   const data = await projectStore.getProjects();
-  if (data) projects.value = data;
+  if (data) projects.value = data.row;
   loading.value = false;
 });
 

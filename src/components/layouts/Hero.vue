@@ -92,7 +92,7 @@
             /></span>
             <div>
               <span class="hf-label">Projects</span
-              ><span class="hf-value">10+ Built</span>
+              ><span class="hf-value">{{ projects }}+ Built</span>
             </div>
           </div>
           <div class="hf hf-3">
@@ -140,8 +140,11 @@
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { useProjectStore } from "@/stores/project";
 const typedText = ref("");
 const photoElRef = ref(null);
+const projectStore = useProjectStore();
+const projects = ref(0);
 
 // ── Typed text ─────────────────────────────────────────
 const phrases = [
@@ -173,7 +176,10 @@ function type() {
   typeTimer = setTimeout(type, del ? 40 : 75);
 }
 // START typing
-onMounted(() => {
+onMounted(async () => {
+  const data = await projectStore.getProjects();
+  projects.value = data?.countRow?.[0]?.count || 0;
+
   type();
 });
 
