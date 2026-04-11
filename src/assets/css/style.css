@@ -1707,6 +1707,14 @@ html.light .edu-card:hover {
   height: 100%;
 }
 
+.swiper-pagination-bullet-active {
+    background: var(--accent) !important;
+}
+
+.swiper-pagination-bullet {
+    background: var(--accent) !important;
+}
+
 .projects-mosaic {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
