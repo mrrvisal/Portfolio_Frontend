@@ -99,10 +99,15 @@ const scrollToSection = () => {
 
 // Fetch projects from Pinia store
 onMounted(async () => {
-  loading.value = true;
-  const data = await projectStore.getProjects();
-  if (data) projects.value = data.row;
-  loading.value = false;
+  try {
+    loading.value = true;
+    const data = await projectStore.getProjects();
+    if (data) projects.value = data.row;
+  } catch (error) {
+    console.error("Failed to load projects:", error);
+  } finally {
+    loading.value = false;
+  }
 });
 
 defineExpose({ scrollToSection });

@@ -18,22 +18,17 @@
       </div>
     </div>
     <div class="edu-grid">
-  <div v-for="(edu, index) in (loading ? Array(4).fill({}) : educations)" :key="index" class="edu-card">
-    <div class="edu-year skeleton" v-if="loading"></div>
-    <div class="edu-year" v-else>{{ edu.year }}</div>
-
-    <div class="edu-degree skeleton" v-if="loading"></div>
-    <div class="edu-degree" v-else>{{ edu.degree }}</div>
-
-    <div class="edu-school skeleton" v-if="loading"></div>
-    <div class="edu-school" v-else>{{ edu.school }}</div>
-
-    <div class="edu-desc skeleton" v-if="loading"></div>
-    <div class="edu-desc" v-else>{{ edu.description }}</div>
-
-    <span class="edu-badge skeleton" v-if="loading"></span>
-    <span
-          v-else-if="edu.border_color"
+      <div
+        v-for="(edu, index) in educations"
+        :key="index"
+        class="edu-card"
+      >
+        <div class="edu-year">{{ edu.year }}</div>
+        <div class="edu-degree">{{ edu.degree }}</div>
+        <div class="edu-school">{{ edu.school }}</div>
+        <div class="edu-desc">{{ edu.description }}</div>
+        <span
+          v-if="edu.border_color"
           class="edu-badge"
           :style="{
             'border-color': 'var(--accent4)',
@@ -43,8 +38,8 @@
           >{{ edu.badge }}</span
         >
         <span v-else class="edu-badge">{{ edu.badge }}</span>
-  </div>
-</div>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -63,7 +58,6 @@ onMounted(async () => {
     const data = await educationStore.getEducations();
     educations.value = data || [];
     // console.log('try');
-    
   } catch (err) {
     console.error(err);
   } finally {
