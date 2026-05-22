@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export const useContactStore = defineStore("contact", () => {
   // state
@@ -55,6 +55,7 @@ export const useContactStore = defineStore("contact", () => {
 
       const response = await res.json();
       const data = response.data;
+      contact.value = data || [];
       // console.log("GET result:", data);
       return data;
     } catch (err) {

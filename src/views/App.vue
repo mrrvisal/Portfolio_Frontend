@@ -102,14 +102,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import loader from "@/components/loader/Loader.vue";
 import footer_component from "@/components/base/Footer.vue";
 import contact_section from "@/components/layouts/Contact.vue";
 // import experience_section from "@/components/layouts/Experience.vue";
 import skill_section from "@/components/layouts/Skill.vue";
 import project_section from "@/components/layouts/Project.vue";
-import Education_section from "@/components/layouts/Education.vue";
+import education_section from "@/components/layouts/Education.vue";
 import hobbies_section from "@/components/layouts/Hobbies.vue";
 import about_section from "@/components/layouts/About.vue";
 import stats_card_section from "@/components/layouts/StatsCard.vue";
@@ -119,7 +119,6 @@ import hero_section from "@/components/layouts/Hero.vue";
 const canvasRef = ref(null);
 const cursorRef = ref(null);
 const cursorRingRef = ref(null);
-const statsBarRef = ref(null);
 
 // ── State ──────────────────────────────────────────────
 const navScrolled = ref(false);
@@ -336,29 +335,6 @@ function type() {
   typeTimer = setTimeout(type, del ? 40 : 75);
 }
 
-// ── Counters ───────────────────────────────────────────
-let counted = false;
-function initCounters() {
-  const obs = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting && !counted) {
-        counted = true;
-        stats.forEach((s) => {
-          let n = 0;
-          const step = s.target / 60;
-          const t = setInterval(() => {
-            n = Math.min(n + step, s.target);
-            s.current = Math.floor(n);
-            if (n >= s.target) clearInterval(t);
-          }, 20);
-        });
-      }
-    },
-    { threshold: 0.5 }
-  );
-  if (statsBarRef.value) obs.observe(statsBarRef.value);
-}
-
 // ── Skill bars ─────────────────────────────────────────
 function initSkillBars() {
   const obs = new IntersectionObserver(
@@ -416,7 +392,6 @@ onMounted(() => {
   window.addEventListener("scroll", onScroll);
 
   // Observers
-  initCounters();
   initSkillBars();
   initTimeline();
   initReveal();

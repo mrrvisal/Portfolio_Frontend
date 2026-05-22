@@ -9,6 +9,7 @@
 }
 
 :root {
+    --accent-rgb: 0, 255, 136;
     --bg-toast:rgba(255, 255, 255, 0.4) 0px 0px 16px;
     --bg: #060608;
     --surface: #0e0e12;
@@ -31,6 +32,7 @@
 }
 
 html.light {
+    --accent-rgb: 18, 70, 200;
     --bg-toast: rgba(17, 17, 26, 0.2) 0px 0px 16px;;
     --bg: #f0f5ff;
     --surface: #e4edfb;
@@ -864,11 +866,11 @@ html.light .btn-primary::before {
     align-items: center;
 }
 
-/* ── Hexagon Photo + Floating Mix ── */
+/* ── Portrait Photo + Floating Mix ── */
 .hex-scene {
     position: relative;
-    width: 400px;
-    height: 440px;
+    width: 420px;
+    height: 460px;
     opacity: 0;
     animation: fadeIn 1s 1.1s forwards;
     flex-shrink: 0;
@@ -877,16 +879,16 @@ html.light .btn-primary::before {
     justify-content: center;
 }
 
-/* Ambient glow behind hex */
 .hex-glow {
     position: absolute;
-    width: 280px;
-    height: 280px;
+    width: 310px;
+    height: 350px;
     background: radial-gradient(circle,
-            rgba(0, 255, 136, 0.18) 0%,
-            rgba(123, 97, 255, 0.1) 40%,
+            rgba(0, 255, 136, 0.2) 0%,
+            rgba(123, 97, 255, 0.12) 42%,
             transparent 70%);
-    border-radius: 50%;
+    border-radius: 44% 56% 58% 42%;
+    filter: blur(4px);
     animation: pulseGlow 4s ease-in-out infinite;
     pointer-events: none;
 }
@@ -912,76 +914,152 @@ html.light .hex-glow {
     }
 }
 
-/* Spinning hex ring */
-.hex-ring-svg {
+.portrait-orbit {
     position: absolute;
-    width: 300px;
-    height: 300px;
-    animation: spin 20s linear infinite;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
 }
 
-.hex-ring-svg-r {
-    position: absolute;
-    width: 330px;
-    height: 330px;
-    animation: spin 28s linear infinite reverse;
-    opacity: 0.5;
+.portrait-orbit-a {
+    width: 315px;
+    height: 365px;
+    border-radius: 34px;
+    transform: rotate(-7deg);
+    animation: floatC 5s ease-in-out infinite;
 }
 
-/* Hexagon clip */
+.portrait-orbit-b {
+    width: 270px;
+    height: 405px;
+    border-color: rgba(0, 255, 136, 0.16);
+    border-radius: 999px;
+    transform: rotate(18deg);
+    animation: spin 24s linear infinite;
+    opacity: 0.8;
+}
+
+.portrait-accent {
+    position: absolute;
+    z-index: 6;
+    width: 86px;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    box-shadow: 0 0 22px rgba(0, 255, 136, 0.32);
+    pointer-events: none;
+}
+
+.portrait-accent-top {
+    top: 86px;
+    right: 76px;
+    transform: rotate(12deg);
+}
+
+.portrait-accent-bottom {
+    left: 78px;
+    bottom: 78px;
+    width: 112px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent4));
+    transform: rotate(-12deg);
+    box-shadow: 0 0 22px rgba(255, 60, 110, 0.28);
+}
+
 .hex-photo-wrap {
     position: relative;
     z-index: 5;
-    width: 220px;
-    height: 254px;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    width: 242px;
+    height: 320px;
+    border-radius: 34px;
     cursor: pointer;
     overflow: hidden;
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
     transition:
-        transform 0.3s,
-        filter 0.3s;
+        transform 0.35s ease,
+        filter 0.35s ease,
+        box-shadow 0.35s ease;
+    transform: rotate(-3deg);
 }
 
 .hex-photo-wrap:hover {
-    transform: scale(1.04);
+    transform: rotate(0deg) translateY(-8px) scale(1.02);
+    box-shadow:
+        0 36px 86px rgba(0, 0, 0, 0.52),
+        0 0 38px rgba(0, 255, 136, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
-/* Gradient border via outer hex */
 .hex-border {
     position: absolute;
     z-index: 4;
-    width: 232px;
-    height: 268px;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    width: 260px;
+    height: 338px;
+    border-radius: 38px;
     background: linear-gradient(135deg,
             var(--accent),
             var(--accent3),
             var(--accent2));
-    animation: spin 20s linear infinite;
+    box-shadow: 0 0 44px rgba(var(--accent-rgb), 0.18);
+    transform: rotate(-3deg);
 }
 
 .hex-border-inner {
     position: absolute;
     z-index: 4;
-    width: 228px;
-    height: 263px;
-    margin: 2px;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    background: var(--bg);
+    width: 252px;
+    height: 330px;
+    border-radius: 34px;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.1), transparent 38%),
+        var(--bg);
+    transform: rotate(-3deg);
 }
 
 .hex-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--surface2), var(--surface));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-size: 64px;
-    font-weight: 800;
-    color: var(--accent);
-    letter-spacing: -0.04em;
+    background:
+        linear-gradient(160deg, rgba(255, 255, 255, 0.16), transparent 36%),
+        linear-gradient(135deg, var(--surface2), var(--surface));
+    position: relative;
+    overflow: hidden;
+}
+
+.hex-placeholder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+        linear-gradient(115deg, rgba(255, 255, 255, 0.24), transparent 24% 72%, rgba(0, 0, 0, 0.2)),
+        linear-gradient(0deg, rgba(6, 6, 8, 0.2), transparent 38%);
+    pointer-events: none;
+}
+
+.hex-placeholder::after {
+    content: "";
+    position: absolute;
+    inset: 16px;
+    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 24px;
+    pointer-events: none;
+}
+
+.hex-placeholder img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    filter: saturate(1.1) contrast(1.1) brightness(1.05);
+    transform: scale(1.04);
+    transition: transform 0.45s ease, filter 0.45s ease;
+}
+
+.hex-photo-wrap:hover .hex-placeholder img {
+    transform: scale(1.09);
 }
 
 /* ── Floating elements ── */
@@ -995,7 +1073,7 @@ html.light .hex-glow {
     background: rgba(10, 10, 16, 0.88);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 24px rgba(53, 108, 55, 0.4);
     border-radius: 12px;
     font-family: var(--font-mono);
     white-space: nowrap;
@@ -1057,10 +1135,6 @@ html.light .hf {
     align-items: center;
     justify-content: center;
     transition: transform 0.2s;
-}
-
-.hf-icon-pill:hover {
-    transform: scale(1.2) !important;
 }
 
 html.light .hf-icon-pill {
@@ -1314,6 +1388,17 @@ html.light .stat-item::before {
 
 .stat-item:hover .stat-num {
     text-shadow: var(--glow);
+}
+
+.stat-num-skeleton.skeleton {
+    width: 70px;
+    height: 48px;
+}
+
+.stat-label-skeleton.skeleton {
+    width: 120px;
+    height: 11px;
+    margin-top: 10px;
 }
 
 /* ── Marquee ── */
@@ -1720,6 +1805,27 @@ html.light .edu-card:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+}
+
+.project-skeletons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+.project-skeletons .proj {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 767px) {
+    .project-skeletons {
+        gap: 16px;
+    }
+    .proj {
+        padding: 24px;
+    }
 }
 
 .proj {
@@ -2529,37 +2635,43 @@ html.light .scroll-top {
     }
 
     .hex-scene {
-        width: 340px;
-        height: 380px;
+        width: 350px;
+        height: 400px;
     }
 
-    .hex-ring-svg {
-        width: 260px;
-        height: 260px;
+    .portrait-orbit-a {
+        width: 280px;
+        height: 330px;
     }
 
-    .hex-ring-svg-r {
-        width: 290px;
-        height: 290px;
+    .portrait-orbit-b {
+        width: 235px;
+        height: 360px;
     }
 
     .hex-border {
-        width: 200px;
-        height: 230px;
+        width: 230px;
+        height: 300px;
     }
 
     .hex-border-inner {
-        width: 196px;
-        height: 226px;
+        width: 222px;
+        height: 292px;
     }
 
     .hex-photo-wrap {
-        width: 190px;
-        height: 220px;
+        width: 212px;
+        height: 282px;
     }
 
-    .hex-placeholder {
-        font-size: 52px;
+    .portrait-accent-top {
+        top: 70px;
+        right: 56px;
+    }
+
+    .portrait-accent-bottom {
+        left: 54px;
+        bottom: 64px;
     }
 
     .hf-1 {
@@ -2721,8 +2833,33 @@ html.light .scroll-top {
 
     /* Hex hero show on tablet if wanted */
     .hex-scene {
-        width: 280px;
+        width: 300px;
+        height: 340px;
+    }
+
+    .portrait-orbit-a {
+        width: 240px;
+        height: 292px;
+    }
+
+    .portrait-orbit-b {
+        width: 205px;
         height: 320px;
+    }
+
+    .hex-border {
+        width: 204px;
+        height: 266px;
+    }
+
+    .hex-border-inner {
+        width: 196px;
+        height: 258px;
+    }
+
+    .hex-photo-wrap {
+        width: 186px;
+        height: 248px;
     }
 
     .hobbies-grid {

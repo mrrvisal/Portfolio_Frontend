@@ -1,11 +1,18 @@
 <template>
   <div>
-
     <div class="stats-bar" ref="statsBarRef">
-      <div class="stat-item" v-for="stat in stats" :key="stat.label">
+      <template v-if="!statsLoaded">
+        <div class="stat-item" v-for="item in skeletonStats" :key="item">
+          <div class="stat-num">
+            <span class="stat-num-skeleton skeleton"></span>
+          </div>
+          <div class="stat-label stat-label-skeleton skeleton"></div>
+        </div>
+      </template>
+      <div v-else class="stat-item" v-for="stat in stats" :key="stat.label">
         <div class="stat-num">
-          <span>{{ stat.current }}</span
-          ><span>{{ stat.suffix }}</span>
+          <span>{{ stat.current }}</span>
+          <span>{{ stat.suffix }}</span>
         </div>
         <div class="stat-label">{{ stat.label }}</div>
       </div>
@@ -21,43 +28,23 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive, onMounted } from "vue";
+import { ref, onBeforeUnmount, onMounted } from "vue";
 import { useProjectStore } from "@/stores/project";
 import { useContactStore } from "@/stores/contact";
+
 const statsBarRef = ref(null);
 const projectStore = useProjectStore();
-const projects = ref(0);
 const contactStore = useContactStore();
-const contacts = ref(0);
-const stats = ref([]);
+const counterTimers = [];
+const statsLoaded = ref(false);
+let observer = null;
+const skeletonStats = 3;
 
-onMounted(async () => {
-  const data = await projectStore.getProjects();
-  const contactData = await contactStore.getContacts();
-
-  projects.value = data?.countRow?.[0]?.count || 0;
-  contacts.value = contactData?.countRow?.[0]?.count || 0;
-
-  stats.value = [
-    { label: "Years Experience", target: 1, current: 0, suffix: "+" },
-    { label: "Projects Built", target: projects.value, current: 0, suffix: "+" },
-    { label: "Happy Clients", target: contacts.value, current: 0, suffix: "+" },
-  ];
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting) {
-        animateStats();
-        observer.disconnect();
-      }
-    },
-    { threshold: 0.5 }
-  );
-
-  if (statsBarRef.value) {
-    observer.observe(statsBarRef.value);
-  }
-});
+const stats = ref([
+  { label: "Years Experience", target: 1, current: 0, suffix: "+" },
+  { label: "Projects Built", target: 0, current: 0, suffix: "+" },
+  { label: "Happy Clients", target: 0, current: 0, suffix: "+" },
+]);
 
 const marqueeItems = [
   "HTML5",
@@ -83,39 +70,83 @@ const marqueeItems = [
   "GitHub",
   "MySQL",
 ];
-  const animateStats = () => {
-    stats.value.forEach((stat) => {
-      let start = 0;
-      const duration = 1500; // 1.5 seconds
-      const stepTime = 20;
-      const increment = stat.target / (duration / stepTime);
-  
-      const counter = setInterval(() => {
-        start += increment;
-  
-        if (start >= stat.target) {
-          stat.current = stat.target;
-          clearInterval(counter);
-        } else {
-          stat.current = Math.floor(start);
-        }
-      }, stepTime);
-    });
-  };
-  // Fetch projects from Pinia store
-  onMounted(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          animateStats();
-          observer.disconnect(); // run once only
-        }
-      },
-      { threshold: 0.5 }
-    );
-  
-    if (statsBarRef.value) {
-      observer.observe(statsBarRef.value);
+
+const getItemCount = (data) => {
+  if (Array.isArray(data)) return data.length;
+  if (Array.isArray(data?.row)) return data.row.length;
+  return Number(data?.countRow?.[0]?.count) || 0;
+};
+
+const animateStats = () => {
+  counterTimers.forEach(clearInterval);
+  counterTimers.length = 0;
+
+  stats.value.forEach((stat) => {
+    let current = 0;
+    const duration = 1500;
+    const stepTime = 20;
+    const increment = stat.target / (duration / stepTime);
+
+    if (stat.target === 0) {
+      stat.current = 0;
+      return;
     }
+
+    const timer = setInterval(() => {
+      current += increment;
+
+      if (current >= stat.target) {
+        stat.current = stat.target;
+        clearInterval(timer);
+      } else {
+        stat.current = Math.floor(current);
+      }
+    }, stepTime);
+
+    counterTimers.push(timer);
   });
+};
+
+onMounted(async () => {
+  const [projectData, contactData] = await Promise.all([
+    projectStore.getProjects(),
+    contactStore.getContacts(),
+  ]);
+
+  if (projectStore.error || contactStore.error) return;
+
+  stats.value = [
+    { label: "Years Experience", target: 1, current: 0, suffix: "+" },
+    {
+      label: "Projects Built",
+      target: getItemCount(projectData),
+      current: 0,
+      suffix: "+",
+    },
+    {
+      label: "Happy Clients",
+      target: getItemCount(contactData),
+      current: 0,
+      suffix: "+",
+    },
+  ];
+  statsLoaded.value = true;
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        animateStats();
+        observer.disconnect();
+      }
+    },
+    { threshold: 0.5 }
+  );
+
+  if (statsBarRef.value) observer.observe(statsBarRef.value);
+});
+
+onBeforeUnmount(() => {
+  if (observer) observer.disconnect();
+  counterTimers.forEach(clearInterval);
+});
 </script>

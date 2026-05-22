@@ -43,38 +43,18 @@
       <div class="hero-right">
         <div class="hex-scene">
           <div class="hex-glow"></div>
-          <svg
-            class="hex-ring-svg"
-            viewBox="0 0 300 300"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              points="150,8 292,79 292,221 150,292 8,221 8,79"
-              stroke="rgba(0,255,136,0.15)"
-              stroke-width="1"
-              fill="none"
-              stroke-dasharray="6 4"
-            />
-          </svg>
-          <svg
-            class="hex-ring-svg-r"
-            viewBox="0 0 330 330"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              points="165,6 324,87 324,243 165,324 6,243 6,87"
-              stroke="rgba(123,97,255,0.12)"
-              stroke-width="1"
-              fill="none"
-            />
-          </svg>
+          <div class="portrait-orbit portrait-orbit-a"></div>
+          <div class="portrait-orbit portrait-orbit-b"></div>
+          <div class="portrait-accent portrait-accent-top"></div>
+          <div class="portrait-accent portrait-accent-bottom"></div>
           <div class="hex-border"></div>
           <div class="hex-border-inner"></div>
           <div class="hex-photo-wrap" @click="triggerPhotoUpload">
             <div class="hex-placeholder" ref="photoElRef">
-              <img src="https://res.cloudinary.com/daji2ml3y/image/upload/q_auto/f_auto/v1775102685/2026-03-28_12.38.31_cpfmyd_1_a5zg3g.jpg" alt="">
+              <img
+                src="https://res.cloudinary.com/daji2ml3y/image/upload/v1779357531/2026-05-21_15.08.10_1_rn7ehd.jpg"
+                alt="Ei Visal portrait"
+              />
             </div>
           </div>
 
