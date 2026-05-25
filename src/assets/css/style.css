@@ -973,7 +973,7 @@ html.light .hex-glow {
     cursor: pointer;
     overflow: hidden;
     box-shadow:
-        0 30px 70px rgba(0, 0, 0, 0.45),
+        0 15px 30px rgba(0, 0, 0, 0.45),
         inset 0 1px 0 rgba(255, 255, 255, 0.18);
     transition:
         transform 0.35s ease,
@@ -985,9 +985,9 @@ html.light .hex-glow {
 .hex-photo-wrap:hover {
     transform: rotate(0deg) translateY(-8px) scale(1.02);
     box-shadow:
-        0 36px 86px rgba(0, 0, 0, 0.52),
+        0 10px 20px rgba(0, 0, 0, 0.52),
         0 0 38px rgba(0, 255, 136, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .hex-border {
@@ -1056,6 +1056,10 @@ html.light .hex-glow {
     filter: saturate(1.1) contrast(1.1) brightness(1.05);
     transform: scale(1.04);
     transition: transform 0.45s ease, filter 0.45s ease;
+}
+
+html.light .hex-placeholder img {
+    filter: brightness(1.15);
 }
 
 .hex-photo-wrap:hover .hex-placeholder img {
